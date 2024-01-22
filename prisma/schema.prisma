@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "darwin-arm64"]
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  phone     Int?     @unique
+  email     String?  @unique
+  avatarUrl String?
+  created   DateTime @default(now())
+  upadated  DateTime @updatedAt
+  Token     Token[]
+}
+
+model Token {
+  id       Int      @id @default(autoincrement())
+  payload  String   @unique
+  user     User     @relation(fields: [userId], references: [id])
+  created  DateTime @default(now())
+  upadated DateTime @updatedAt
+  userId   Int
+
+  @@index([userId])
+}
