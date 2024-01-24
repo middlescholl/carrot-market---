@@ -10,7 +10,7 @@ interface EnterForm {
   email?: string;
   phone?: string;
 }
-
+// /
 const Enter: NextPage = () => {
   const [enter,{loading,data,error}] = useMutation("/api/users/enter")
   const [Loading,setloding] = useState(false)
